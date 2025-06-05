@@ -21,13 +21,13 @@ public class LinkedBST<E extends Comparable<E>> implements BinarySearchTree<E> {
         }
     }
 
-    private Node root;
+    //private Node root;
+    protected Node root;
 
     public LinkedBST() {
         this.root = null;
     }
 
-    // Insertar un elemento en el BST
     public void insert(E data) throws ItemDuplicated {
         root = insert(root, data);
     }
@@ -49,7 +49,6 @@ public class LinkedBST<E extends Comparable<E>> implements BinarySearchTree<E> {
         return actual;
     }
 
-    // Buscar un elemento en el BST
     public E search(E data) throws ItemNoFound {
         return search(root, data);
     }
@@ -69,7 +68,6 @@ public class LinkedBST<E extends Comparable<E>> implements BinarySearchTree<E> {
         }
     }
 
-    // Eliminar un elemento del BST
     public void delete(E data) throws ExceptionIsEmpty {
         if (root == null) {
             throw new ExceptionIsEmpty("El árbol está vacío");
@@ -88,22 +86,19 @@ public class LinkedBST<E extends Comparable<E>> implements BinarySearchTree<E> {
         } else if (compara > 0) {
             actual.right = delete(actual.right, data);
         } else {
-            // Caso 1: sin hijos
             if (actual.left == null && actual.right == null) {
                 return null;
             }
-            // Caso 2: un solo hijo
             if (actual.left == null) {
                 return actual.right;
             } else if (actual.right == null) {
                 return actual.left;
             }
-            // Caso 3: dos hijos
             E min = findMin(actual.right);
             actual.data = min;
             actual.right = delete(actual.right, min);
         }
-        return actual;  
+        return actual;
     }
 
     private E findMin(Node actual) {
@@ -113,7 +108,6 @@ public class LinkedBST<E extends Comparable<E>> implements BinarySearchTree<E> {
         return actual.data;
     }
 
-    // Mostrar el árbol en inorden como cadena (sin usar StringBuilder)
     public String toString() {
         return toString(root).trim();
     }
@@ -125,9 +119,64 @@ public class LinkedBST<E extends Comparable<E>> implements BinarySearchTree<E> {
         return toString(actual.left) + actual.data + " " + toString(actual.right);
     }
 
-    // Verifica si el árbol está vacío
     @Override
     public boolean isEmpty() {
         return root == null;
+    }
+
+    // MÉTODO DE RECORRIDO IN-ORDER CON MENSAJES
+    public void recorrerInOrder() {
+        inOrder(root);
+    }
+
+    private void inOrder(Node actual) {
+        System.out.println("Recorrer el subárbol izquierdo en in-orden.");
+
+        if (actual == null) {
+            System.out.println("Vacío");
+            return;
+        }
+
+        inOrder(actual.left);
+        System.out.println("Visitar la raíz: " + actual.data);
+        System.out.println("Recorrer el subárbol derecho en in-orden.");
+        inOrder(actual.right);
+    }
+
+    // MÉTODO DE RECORRIDO PRE-ORDER CON MENSAJES
+    public void recorrerPreOrder() {
+        preOrder(root);
+    }
+
+    private void preOrder(Node actual) {
+        if (actual == null) {
+            System.out.println("Vacío");
+            return;
+        }
+
+        System.out.println("Visitar la raíz: " + actual.data);
+        System.out.println("Recorrer el subárbol izquierdo en pre-orden.");
+        preOrder(actual.left);
+        System.out.println("Recorrer el subárbol derecho en pre-orden.");
+        preOrder(actual.right);
+    }
+
+    // Método público que inicia el recorrido post-orden
+    public void recorrerPostOrder() {
+        postOrder(root);
+    }
+
+    // Método privado recursivo que realiza el recorrido post-orden con mensajes
+    private void postOrder(Node actual) {
+        System.out.println("Recorrer el subárbol izquierdo en postorden.");
+        if (actual == null) {
+            System.out.println("Vacío");
+            return;
+        }
+
+        postOrder(actual.left);
+        System.out.println("Recorrer el subárbol derecho en postorden.");
+        postOrder(actual.right);
+        System.out.println("Visitar la raiz: " + actual.data);
     }
 }
