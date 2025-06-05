@@ -7,4 +7,5 @@ public interface BinarySearchTree<E> {
     E search(E data) throws ItemNoFound;
     void delete(E data) throws ExceptionIsEmpty;
     boolean isEmpty();
+    
 }
